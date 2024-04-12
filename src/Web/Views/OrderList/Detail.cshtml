@@ -1,0 +1,86 @@
+﻿@model OrderDetailViewModel
+@{
+    ViewData["Title"] = "My Order History";
+}
+@{
+    ViewData["Title"] = "Order Detail";
+}
+
+<div class="esh-orders-detail">
+    <div class="container">
+        <section class="esh-orders-detail-section">
+            <article class="esh-orders-detail-titles row">
+                <section class="esh-orders-detail-title col-xs-12">ORDER DETAILS</section>
+            </article>
+            <article class="esh-orders-detail-titles row">
+                <section class="esh-orders-detail-title col-xs-3">Order number</section>
+                <section class="esh-orders-detail-title col-xs-3">Date</section>
+                <section class="esh-orders-detail-title col-xs-2">Total</section>
+                <section class="esh-orders-detail-title col-xs-3">Status</section>
+            </article>
+
+            <article class="esh-orders-detail-items row">
+                <section class="esh-orders-detail-item col-xs-3">@Model.OrderNumber</section>
+                <section class="esh-orders-detail-item col-xs-3">@Model.OrderDate</section>
+                <section class="esh-orders-detail-item col-xs-2">$@Model.Total.ToString("N2")</section>
+                <section class="esh-orders-detail-item col-xs-3">@Model.OrderStatus</section>
+            </article>
+        </section>
+
+        <section class="esh-orders-detail-section">
+            
+            <article class="esh-orders-detail-titles row">
+                <section class="esh-orders-detail-title col-xs-3">Order Name</section>
+                <section class="esh-orders-detail-title col-xs-3">Order Unit Price</section>
+                <section class="esh-orders-detail-title col-xs-2">Order Units</section>
+                <section class="esh-orders-detail-title col-xs-3">Unit Total</section>
+            </article>
+
+
+            @for (int i = 0; i < Model.OrderItems.Count; i++)
+            {
+                var item = Model.OrderItems[i];
+
+                <article class="esh-orders-detail-items esh-orders-detail-items--border row">
+                    
+                    <section class="esh-orders-detail-item esh-orders-detail-item--middle col-xs-3">@item.ProductName</section>
+                    <section class="esh-orders-detail-item esh-orders-detail-item--middle col-xs-3">$ @item.UnitPrice.ToString("N2")</section>
+                    <section class="esh-orders-detail-item esh-orders-detail-item--middle col-xs-2">@item.Units</section>
+                    <section class="esh-orders-detail-item esh-orders-detail-item--middle col-xs-3">$ @Math.Round(item.Units * item.UnitPrice, 2).ToString("N2")</section>
+                </article>
+            }
+        </section>
+
+        <section class="esh-orders-detail-section esh-orders-detail-section--right">
+            <article class="esh-orders-detail-titles esh-basket-titles--clean row">
+                <section class="esh-orders-detail-title col-xs-3">Actions</section>
+           
+                <section class="esh-orders-detail-title col-xs-3">Order Status</section>
+            
+                <section class="esh-orders-detail-title col-xs-2">Total</section>
+
+                
+                
+            </article>
+
+            <article class="esh-orders-detail-items row">
+
+                <form method="post" class="esh-orders-item col-xs-3">
+                    <section class="esh-orders-item col-xs-3">
+                        <button style = "background-color:turquoise; color:black;" class="esh-orders-link" asp-controller="Orderlist" asp-action="UpdateStatus" asp-route-orderId="@Model.OrderNumber">Update Status</button>
+                    </section>
+                </form>
+
+                <section class="esh-orders-detail-item esh-orders-detail-item--mark col-xs-3" name="orderStatus" id="orderStatus">@Model.OrderStatus</section>
+                <section class="esh-orders-detail-item esh-orders-detail-item--mark col-xs-1">$ @Model.Total.ToString("N2")</section>
+
+
+                
+                
+
+            </article>
+        </section>
+
+    </div>
+</div>
+
